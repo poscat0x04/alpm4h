@@ -95,5 +95,4 @@ instance Storable AlpmList where
 
 {#pointer *alpm_depend_t as AlpmDependency newtype #}
 
-
 {#pointer *alpm_depmissing_t as AlpmDepmissing newtype #}

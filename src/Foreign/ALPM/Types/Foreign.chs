@@ -89,4 +89,8 @@ instance Storable AlpmList where
 
 {#pointer *alpm_errno_t as AlpmErrnoPtr -> AlpmErrno #}
 
--- {#pointer *alpm_
+{#pointer *alpm_conflict_t as AlpmConflict newtype #}
+
+{#pointer *alpm_fileconflict_t as AlpmFileConflict newtype #}
+
+{#pointer *alpm_depmissing_t as AlpmDepmissing newtype #}

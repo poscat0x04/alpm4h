@@ -1,7 +1,25 @@
-module Foreign.ALPM.PublicAPI where
+module Foreign.ALPM.PublicAPI
+       ( module Foreign.ALPM.Internal.Marshal
+       , module Foreign.ALPM.PublicAPI.Package
+       , module Foreign.ALPM.PublicAPI.Miscellaneous
+       , module Foreign.ALPM.PublicAPI.Logging
+       , module Foreign.ALPM.PublicAPI.Interface
+
+       , alpmFetchPkgurl
+       , alpmUnlock
+       , alpmVersion
+       , alpmCapabilities
+       , alpmConflictFree
+       , alpmFileconflictFree
+       , alpmDepmissingFree
+       ) where
 
 {# import Foreign.ALPM.Types.Foreign #}
 import           Foreign.ALPM.Internal.Marshal
+import           Foreign.ALPM.PublicAPI.Package
+import           Foreign.ALPM.PublicAPI.Miscellaneous
+import           Foreign.ALPM.PublicAPI.Logging
+import           Foreign.ALPM.PublicAPI.Interface
 import           Data.Text (Text)
 
 #include <alpm.h>

@@ -20,6 +20,7 @@ cabal.sandbox.config
 *.hp
 *.eventlog
 .stack-work/
+.stack-work-profiling/
 cabal.project.local
 cabal.project.local~
 .HTF/

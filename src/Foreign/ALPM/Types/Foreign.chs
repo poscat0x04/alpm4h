@@ -93,4 +93,7 @@ instance Storable AlpmList where
 
 {#pointer *alpm_fileconflict_t as AlpmFileConflict newtype #}
 
+{#pointer *alpm_depend_t as AlpmDependency newtype #}
+
+
 {#pointer *alpm_depmissing_t as AlpmDepmissing newtype #}

@@ -3,7 +3,35 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    hackage: libarchive-2.2.0.2@sha256:73023bc81dea28d0e53a89cfd37844ddf62f59d9f6bec5439988592cab60432c,3525
+    pantry-tree:
+      size: 1671
+      sha256: a322ad4f5eb7cf2cec700cc8f4ca965581c6ca9e4088f362cfada3294bb6e6cc
+  original:
+    hackage: libarchive-2.2.0.2
+- completed:
+    hackage: chs-cabal-0.1.1.0@sha256:7ff37c09dd246fe950b91c1fb516ddc65533f805580cb947c38b717e92eaab3a,1098
+    pantry-tree:
+      size: 345
+      sha256: 430e2e0453d3eb32e8811b8f3dc52029202b87a722010c4047bcba8825ea8847
+  original:
+    hackage: chs-cabal-0.1.1.0
+- completed:
+    hackage: composition-prelude-2.0.5.0@sha256:2e18aa0baa6ba527b086261f077a10c2786594879f6c0cbcb50464b9d69b1521,1149
+    pantry-tree:
+      size: 284
+      sha256: c05343a0bfe62dd3e14ebf89e440cf5bc9148957f2596efcaf0c9553f235befc
+  original:
+    hackage: composition-prelude-2.0.5.0
+- completed:
+    hackage: chs-deps-0.1.0.0@sha256:0cdada6d2c682c41b20331b8c63c2ecfc7e806928585195fd544c9d41f3074fd,2496
+    pantry-tree:
+      size: 498
+      sha256: b9e07152e9cd98b789bd58979aa6271232f05b29c46291aedc772d680434e183
+  original:
+    hackage: chs-deps-0.1.0.0
 snapshots:
 - completed:
     size: 488576

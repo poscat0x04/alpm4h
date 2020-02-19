@@ -20,12 +20,22 @@ description:         Please see the README on GitHub at <https://github.com/posc
 
 dependencies:
 - base >= 4.7 && < 5
+- libarchive
+- text
 
 library:
+  #exposed-modules:
+  #  - Foreign.ALPM.Types.Foreign
   source-dirs: src
 
 extra-libraries:
   - alpm
+
+custom-setup:
+  dependencies:
+    - base
+    - Cabal
+    - chs-cabal
 
 build-tools:
   - c2hs

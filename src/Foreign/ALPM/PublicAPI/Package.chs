@@ -78,10 +78,10 @@ import           Foreign.C.Types
 
 {#fun alpm_pkg_load as ^ { `AlpmHandle'
                          , withCString* `Text'
-                         , `Int'
-                         , `Int'
+                         , `Bool'
+                         , `AlpmSigLevel'  -- ^ a package sig level
                          , id `Ptr AlpmPackage'
-                         } -> `Int' #}
+                         } -> `Bool' #}
 {#fun alpm_pkg_find as ^ { `AlpmListPtr'
                          , withCString* `Text'
                          } -> `AlpmPackage' #}
@@ -89,24 +89,24 @@ import           Foreign.C.Types
 {#fun alpm_pkg_checkmd5sum as ^ {`AlpmPackage'} -> `Bool' #}
 {#fun alpm_pkg_vercmp as ^ { withCString* `Text'
                            , withCString* `Text'
-                           } -> `Int' #}
+                           } -> `Ordering' enumToOrd #}
 {#fun alpm_pkg_compute_requiredby as ^ {`AlpmPackage'} -> `AlpmListPtr' #}
 {#fun alpm_pkg_compute_optionalfor as ^ {`AlpmPackage'} -> `AlpmListPtr' #}
 {#fun alpm_pkg_should_ignore as ^ {`AlpmHandle', `AlpmPackage'} -> `Bool' #}
 {#fun alpm_filelist_contains as ^ {`AlpmFilelist', withCString* `Text'} -> `AlpmFile' #}
-{#fun alpm_pkg_check_pgp_signature as ^ {`AlpmPackage', `AlpmSiglist'} -> `Bool' #}
-{#fun alpm_db_check_pgp_signature as ^ {`AlpmDatabase', `AlpmSiglist'} -> `Bool' #}
+{#fun alpm_pkg_check_pgp_signature as ^ {`AlpmPackage', `AlpmSiglist'} -> `Int' #}
+{#fun alpm_db_check_pgp_signature as ^ {`AlpmDatabase', `AlpmSiglist'} -> `Int' #}
 {#fun alpm_siglist_cleanup as ^ {`AlpmSiglist'} -> `Bool' #}
 {#fun alpm_decode_signature as ^ { withCString* `Text'
                                  , id `Ptr (Ptr CUChar)'
                                  , id `Ptr CULong'
-                                 } -> `Int' #}
+                                 } -> `Bool' #}
 {#fun alpm_extract_keyid as ^ { `AlpmHandle'
                               , withCString* `Text'
                               , id `Ptr CUChar'
                               , `Word64'
                               , id `Ptr AlpmListPtr'
-                              } -> `Int' #}
+                              } -> `Bool' #}
 {#fun alpm_find_group_pkgs as ^ {`AlpmListPtr', withCString* `Text'} -> `AlpmListPtr' #}
 {#fun alpm_sync_get_new_version as ^ {`AlpmPackage', `AlpmListPtr'} -> `AlpmPackage' #}
 

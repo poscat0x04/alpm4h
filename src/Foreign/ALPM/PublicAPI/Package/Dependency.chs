@@ -11,7 +11,7 @@ import           Data.Text (Text)
                           , `AlpmListPtr'
                           , `AlpmListPtr'
                           , `AlpmListPtr'
-                          , `Int'
+                          , `Bool'
                           } -> `AlpmListPtr' #}
 {#fun alpm_find_satisfier as ^ { `AlpmListPtr'
                                , withCString* `Text'

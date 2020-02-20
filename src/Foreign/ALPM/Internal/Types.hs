@@ -1,11 +1,11 @@
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
-module Foreign.ALPM.Types
+module Foreign.ALPM.Internal.Types
        ( module Foreign.ALPM.Types.Foreign
        , AlpmError (..)
-       , AlpmErrno (..)
        , AlpmMonad (..)
+       , Trace
        ) where
 
 import           Foreign.ALPM.Types.Foreign

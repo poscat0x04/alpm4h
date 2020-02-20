@@ -23,6 +23,8 @@ dependencies:
 - libarchive
 - text
 - bytestring
+- containers
+- mtl
 
 library:
   source-dirs: src

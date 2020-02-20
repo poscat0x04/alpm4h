@@ -11,4 +11,4 @@ import           Data.Text (Text)
 {#fun alpm_logaction as ^ { `AlpmHandle'
                           , withCString* `Text'
                           , withCString* `Text'
-                          } -> `Int' #}
+                          } -> `Bool' #}

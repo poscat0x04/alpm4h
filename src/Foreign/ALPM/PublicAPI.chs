@@ -5,6 +5,7 @@ module Foreign.ALPM.PublicAPI
        , module Foreign.ALPM.PublicAPI.Logging
        , module Foreign.ALPM.PublicAPI.Interface
        , module Foreign.ALPM.PublicAPI.Error
+       , module Foreign.ALPM.PublicAPI.Options
 
        , alpmFetchPkgurl
        , alpmUnlock
@@ -22,6 +23,7 @@ import           Foreign.ALPM.PublicAPI.Miscellaneous
 import           Foreign.ALPM.PublicAPI.Logging
 import           Foreign.ALPM.PublicAPI.Interface
 import           Foreign.ALPM.PublicAPI.Error
+import           Foreign.ALPM.PublicAPI.Options
 import           Data.Text (Text)
 
 #include <alpm.h>

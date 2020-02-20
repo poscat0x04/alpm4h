@@ -4,6 +4,8 @@ module Foreign.ALPM.Internal.Marshal
        , enumToOrd
        , decodeTransFlag
        , encodeTransFlag
+       , decodeDBUsage
+       , encodeDBUsage
        ) where
 
 
@@ -73,3 +75,23 @@ decodeTransFlag b =
 
 encodeTransFlag :: Enum a => S.Set AlpmTransFlag -> a
 encodeTransFlag = toEnum . sum . map fromEnum . S.toList
+
+dbUsage :: [AlpmDBUsage]
+dbUsage = [ AlpmDbUsageSync
+          , AlpmDbUsageSearch
+          , AlpmDbUsageInstall
+          , AlpmDbUsageUpgrade
+          ]
+
+decodeDBUsage :: Bits a => a -> S.Set AlpmDBUsage
+decodeDBUsage b =
+    let binary = fromBits b
+        zipped = fuseMaybe (\x y -> if x then Just y else Nothing) binary dbUsage
+     in S.fromList zipped
+
+encodeDBUsage :: Enum a => S.Set AlpmDBUsage -> a
+encodeDBUsage s =
+    let l = S.toList s
+     in if AlpmDbUsageAll `elem` l
+           then toEnum $ fromEnum AlpmDbUsageAll
+           else (toEnum . sum . map fromEnum) l

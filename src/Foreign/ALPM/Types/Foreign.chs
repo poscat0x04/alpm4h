@@ -81,6 +81,8 @@ instance Storable AlpmList where
 ----------------------------------------------
 -- Pointers
 
+{#pointer *alpm_group_t as AlpmGroup newtype #}
+
 {#pointer *alpm_file_t as AlpmFile newtype #}
 
 {#pointer *alpm_filelist_t as AlpmFilelist newtype #}

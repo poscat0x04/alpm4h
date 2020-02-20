@@ -1,6 +1,5 @@
 module Foreign.ALPM.PublicAPI
-       ( module Foreign.ALPM.Internal.Marshal
-       , module Foreign.ALPM.PublicAPI.Package
+       ( module Foreign.ALPM.PublicAPI.Package
        , module Foreign.ALPM.PublicAPI.Miscellaneous
        , module Foreign.ALPM.PublicAPI.Logging
        , module Foreign.ALPM.PublicAPI.Interface

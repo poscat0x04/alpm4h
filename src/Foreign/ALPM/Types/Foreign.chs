@@ -3,12 +3,21 @@ module Foreign.ALPM.Types.Foreign where
 import           Control.Exception
 import           Foreign.Ptr
 import           Foreign.Storable
+import           Foreign.C.Types
 
 #include <alpm.h>
 #include <alpm_list.h>
 
 
 {#enum alpm_errno_t as AlpmErrno {underscoreToCase} deriving (Show, Eq, Ord) #}
+
+instance Storable AlpmErrno where
+    sizeOf _ = {#sizeof alpm_errno_t #}
+    alignment _ = {#alignof alpm_errno_t #}
+    peek ptr = do
+        val <- peek (castPtr ptr)
+        return $ toEnum $ fromEnum (val :: CInt)
+    poke ptr v = poke (castPtr ptr) (toEnum $ fromEnum v :: CInt)
 
 {#enum alpm_transflag_t as AlpmTransFlag {underscoreToCase} deriving (Show, Eq, Ord) #}
 

@@ -2,6 +2,7 @@
 module Foreign.ALPM.Internal.Marshal
        ( withCString
        , peekCString
+       , peekCStringRef
        , enumToOrd
        , decodeTransFlag
        , encodeTransFlag
@@ -11,6 +12,7 @@ module Foreign.ALPM.Internal.Marshal
        ) where
 
 
+import           Control.Monad
 import           Data.Bits
 import qualified Data.Set as S
 import           Data.Text (Text)
@@ -106,3 +108,6 @@ withFreeFunc :: FreeFunc -> (FunPtr FreeFunc -> IO a) -> IO a
 withFreeFunc f io = do
     fptr <- mkFreeFunc f
     io fptr
+
+peekCStringRef :: Ptr CString -> IO Text
+peekCStringRef = peek >=> peekCString

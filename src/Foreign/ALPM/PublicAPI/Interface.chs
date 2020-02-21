@@ -11,5 +11,8 @@ import           Foreign.ALPM.Internal.Marshal
 #include <alpm_list.h>
 
 
-{#fun alpm_initialize as ^ {withCString* `Text', withCString* `Text', `AlpmErrnoPtr' } -> `AlpmHandle' #}
+{#fun alpm_initialize as ^ { withCString* `Text'
+                           , withCString* `Text'
+                           , `AlpmErrnoPtr'
+                           } -> `AlpmHandle' #}
 {#fun alpm_release as ^ {`AlpmHandle'} -> `Bool' #}

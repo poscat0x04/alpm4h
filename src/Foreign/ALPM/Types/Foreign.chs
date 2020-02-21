@@ -1,12 +1,14 @@
+{-# LANGUAGE StandaloneDeriving #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
 module Foreign.ALPM.Types.Foreign where
 
 import           Control.Exception
 import           Foreign.Ptr
 import           Foreign.Storable
 import           Foreign.C.Types
+import           Foreign
 
 #include <alpm.h>
-#include <alpm_list.h>
 
 
 {#enum alpm_errno_t as AlpmErrno {underscoreToCase} deriving (Show, Eq, Ord) #}
@@ -51,59 +53,62 @@ instance Storable AlpmErrno where
 
 {#enum alpm_caps as AlpmCaps {underscoreToCase} deriving (Show, Eq, Ord) #}
 
-
-
-
-data AlpmList
-    = AlpmList
-      { prev  :: Ptr ()
-      , next  :: Ptr ()
-      , value :: Ptr ()
-      }
-
-{#pointer *alpm_list_t as AlpmListPtr -> AlpmList #}
-
-instance Storable AlpmList where
-    sizeOf _ = {#sizeof __alpm_list_t #}
-    alignment _ = {#alignof __alpm_list_t #}
-    peek ptr = do
-        d <- {#get __alpm_list_t->data #} ptr
-        p <- {#get __alpm_list_t->prev #} ptr
-        n <- {#get __alpm_list_t->next #} ptr
-        return $ AlpmList d p n
-    poke ptr (AlpmList d p n) = do
-        {#set __alpm_list_t->data #} ptr d
-        {#set __alpm_list_t->prev #} ptr p
-        {#set __alpm_list_t->next #} ptr n
-
 -----------------------------------------------
 -- Opaque Pointers
 
 {#pointer *alpm_handle_t as AlpmHandle newtype #}
 
+deriving instance Storable AlpmHandle
+
 {#pointer *alpm_db_t as AlpmDatabase newtype #}
+
+deriving instance Storable AlpmDatabase
 
 {#pointer *alpm_pkg_t as AlpmPackage newtype #}
 
+deriving instance Storable AlpmPackage
+
 {#pointer *alpm_trans_t as AlpmTransaction newtype #}
+
+deriving instance Storable AlpmTransaction
 
 ----------------------------------------------
 -- Pointers
 
 {#pointer *alpm_group_t as AlpmGroup newtype #}
 
+deriving instance Storable AlpmGroup
+
 {#pointer *alpm_file_t as AlpmFile newtype #}
+
+deriving instance Storable AlpmFile
 
 {#pointer *alpm_filelist_t as AlpmFilelist newtype #}
 
+deriving instance Storable AlpmFilelist
+
 {#pointer *alpm_siglist_t as AlpmSiglist newtype #}
+
+deriving instance Storable AlpmSiglist
 
 {#pointer *alpm_errno_t as AlpmErrnoPtr -> AlpmErrno #}
 
 {#pointer *alpm_conflict_t as AlpmConflict newtype #}
 
+deriving instance Storable AlpmConflict
+
 {#pointer *alpm_fileconflict_t as AlpmFileConflict newtype #}
+
+deriving instance Storable AlpmFileConflict
 
 {#pointer *alpm_depend_t as AlpmDependency newtype #}
 
+deriving instance Storable AlpmDependency
+
 {#pointer *alpm_depmissing_t as AlpmDepmissing newtype #}
+
+deriving instance Storable AlpmDepmissing
+
+{#pointer *alpm_list_t as AlpmListPtr newtype #}
+
+deriving instance Storable AlpmListPtr

@@ -112,3 +112,9 @@ deriving instance Storable AlpmDepmissing
 {#pointer *alpm_list_t as AlpmListPtr newtype #}
 
 deriving instance Storable AlpmListPtr
+
+---------------------------------------------------
+-- Synonyms
+
+-- | Frees the value pointed by a void pointer
+type FreeFunc = Ptr () -> IO ()

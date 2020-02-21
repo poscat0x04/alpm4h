@@ -1,3 +1,4 @@
+{-# LANGUAGE ForeignFunctionInterface #-}
 module Foreign.ALPM.Internal.Marshal
        ( withCString
        , peekCString
@@ -6,6 +7,7 @@ module Foreign.ALPM.Internal.Marshal
        , encodeTransFlag
        , decodeDBUsage
        , encodeDBUsage
+       , withFreeFunc
        ) where
 
 
@@ -14,6 +16,7 @@ import qualified Data.Set as S
 import           Data.Text (Text)
 import           Foreign.C.String (CString)
 import           Foreign.ALPM.Types.Foreign
+import           Foreign
 import           Data.ByteString (useAsCString)
 import           Data.ByteString.Unsafe (unsafePackCString)
 import           Data.Text.Encoding
@@ -95,3 +98,11 @@ encodeDBUsage s =
      in if AlpmDbUsageAll `elem` l
            then toEnum $ fromEnum AlpmDbUsageAll
            else (toEnum . sum . map fromEnum) l
+
+foreign import ccall "wrapper"
+  mkFreeFunc :: FreeFunc -> IO (FunPtr FreeFunc)
+
+withFreeFunc :: FreeFunc -> (FunPtr FreeFunc -> IO a) -> IO a
+withFreeFunc f io = do
+    fptr <- mkFreeFunc f
+    io fptr

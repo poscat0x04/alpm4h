@@ -70,7 +70,7 @@ import           Data.Word
 import           Foreign.ALPM.PublicAPI.Package.Transaction
 import           Foreign.ALPM.PublicAPI.Package.Dependency
 import           Foreign.ALPM.Internal.Marshal
-import           Foreign.Ptr
+import           Foreign
 import           Foreign.C.Types
 
 #include <alpm.h>
@@ -80,7 +80,7 @@ import           Foreign.C.Types
                          , withCString* `Text'
                          , `Bool'
                          , `AlpmSigLevel'  -- ^ a package sig level
-                         , id `Ptr AlpmPackage'
+                         , alloca- `AlpmPackage' peek*
                          } -> `Bool' #}
 {#fun alpm_pkg_find as ^ { `AlpmListPtr'
                          , withCString* `Text'
@@ -98,14 +98,14 @@ import           Foreign.C.Types
 {#fun alpm_db_check_pgp_signature as ^ {`AlpmDatabase', `AlpmSiglist'} -> `Int' #}
 {#fun alpm_siglist_cleanup as ^ {`AlpmSiglist'} -> `Bool' #}
 {#fun alpm_decode_signature as ^ { withCString* `Text'
-                                 , id `Ptr (Ptr CUChar)'
-                                 , id `Ptr CULong'
+                                 , alloca- `Ptr CUChar' peek*
+                                 , alloca- `CULong' peek*
                                  } -> `Bool' #}
 {#fun alpm_extract_keyid as ^ { `AlpmHandle'
                               , withCString* `Text'
                               , id `Ptr CUChar'
                               , `Word64'
-                              , id `Ptr AlpmListPtr'
+                              , alloca- `AlpmListPtr' peek*
                               } -> `Bool' #}
 {#fun alpm_find_group_pkgs as ^ {`AlpmListPtr', withCString* `Text'} -> `AlpmListPtr' #}
 {#fun alpm_sync_get_new_version as ^ {`AlpmPackage', `AlpmListPtr'} -> `AlpmPackage' #}

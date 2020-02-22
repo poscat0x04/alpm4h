@@ -166,9 +166,16 @@ data AlpmSiglist
 
 {#pointer *alpm_errno_t as AlpmErrnoPtr -> AlpmErrno #}
 
-{#pointer *alpm_conflict_t as AlpmConflict newtype #}
+data AlpmConflict
+    = AlpmConflict
+      { package1Hash :: CULong
+      , package2Hash :: CULong
+      , package1 :: CString
+      , package2 :: CString
+      , reason :: AlpmDependency
+      }
 
-deriving instance Storable AlpmConflict
+{#pointer *alpm_conflict_t as AlpmConflictPtr -> AlpmConflict #}
 
 {#pointer *alpm_fileconflict_t as AlpmFileConflict newtype #}
 

@@ -38,7 +38,7 @@ import           Data.Text (Text)
 {#fun alpm_version as ^ {} -> `Text' peekCString* #}
 {#fun alpm_capabilities as ^ {} -> `Int' #}
 
-{#fun alpm_conflict_free as ^ {`AlpmConflict'} -> `()' #}
+{#fun alpm_conflict_free as ^ {`AlpmConflictPtr'} -> `()' #}
 {#fun alpm_fileconflict_free as ^ {`AlpmFileConflict'} -> `()' #}
 {#fun alpm_depmissing_free as ^ {`AlpmDepmissing'} -> `()' #}
 

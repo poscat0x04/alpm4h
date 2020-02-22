@@ -1,57 +1,105 @@
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DerivingVia #-}
+{-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 module Foreign.ALPM.Types.Foreign where
 
-import           Control.Exception
+import           Data.Coerce
 import           Foreign.Ptr
 import           Foreign.Storable
+import           Foreign.ALPM.Internal.TH
 import           Foreign.C.Types
-import           Foreign
+import           Foreign.Storable.Generic
+import           GHC.Generics
 
 #include <alpm.h>
 
 
 {#enum alpm_errno_t as AlpmErrno {underscoreToCase} deriving (Show, Eq, Ord) #}
 
-instance Storable AlpmErrno where
-    sizeOf _ = {#sizeof alpm_errno_t #}
-    alignment _ = {#alignof alpm_errno_t #}
-    peek ptr = do
-        val <- peek (castPtr ptr)
-        return $ toEnum $ fromEnum (val :: CInt)
-    poke ptr v = poke (castPtr ptr) (toEnum $ fromEnum v :: CInt)
+deriveStorable ''AlpmErrno
+deriveGStorable ''AlpmErrno
 
 {#enum alpm_transflag_t as AlpmTransFlag {underscoreToCase} deriving (Show, Eq, Ord) #}
 
+deriveStorable ''AlpmTransFlag
+deriveGStorable ''AlpmTransFlag
+
 {#enum alpm_loglevel_t as AlpmLogLevel {underscoreToCase} deriving (Show, Eq, Ord) #}
+
+deriveStorable ''AlpmLogLevel
+deriveGStorable ''AlpmLogLevel
 
 {#enum alpm_pkgreason_t as AlpmPkgReason {underscoreToCase} deriving (Show, Eq, Ord) #}
 
+deriveStorable ''AlpmPkgReason
+deriveGStorable ''AlpmPkgReason
+
 {#enum alpm_pkgfrom_t as AlpmPkgFrom {underscoreToCase} deriving (Show, Eq, Ord) #}
+
+deriveStorable ''AlpmPkgFrom
+deriveGStorable ''AlpmPkgFrom
 
 {#enum alpm_pkgvalidation_t as AlpmPkgValidation {underscoreToCase} deriving (Show, Eq, Ord) #}
 
+deriveStorable ''AlpmPkgValidation
+deriveGStorable ''AlpmPkgValidation
+
 {#enum alpm_depmod_t as AlpmDepmod {underscoreToCase} deriving (Show, Eq, Ord) #}
+
+deriveStorable ''AlpmDepmod
+deriveGStorable ''AlpmDepmod
 
 {#enum alpm_fileconflicttype_t as AlpmFileConflictType {underscoreToCase} deriving (Show, Eq, Ord) #}
 
+deriveStorable ''AlpmFileConflictType
+deriveGStorable ''AlpmFileConflictType
+
 {#enum alpm_siglevel_t as AlpmSigLevel {underscoreToCase} deriving (Show, Eq, Ord) #}
+
+deriveStorable ''AlpmSigLevel
+deriveGStorable ''AlpmSigLevel
 
 {#enum alpm_sigstatus_t as AlpmSigStatus {underscoreToCase} deriving (Show, Eq, Ord) #}
 
+deriveStorable ''AlpmSigStatus
+deriveGStorable ''AlpmSigStatus
+
 {#enum alpm_sigvalidity_t as AlpmSigValidity {underscoreToCase} deriving (Show, Eq, Ord) #}
+
+deriveStorable ''AlpmSigValidity
+deriveGStorable ''AlpmSigValidity
 
 {#enum alpm_event_type_t as AlpmEventType {underscoreToCase} deriving (Show, Eq, Ord) #}
 
+deriveStorable ''AlpmEventType
+deriveGStorable ''AlpmEventType
+
 {#enum alpm_package_operation_t as AlpmPackageOperation {underscoreToCase} deriving (Show, Eq, Ord) #}
+
+deriveStorable ''AlpmPackageOperation
+deriveGStorable ''AlpmPackageOperation
 
 {#enum alpm_question_type_t as AlpmQuestionType {underscoreToCase} deriving (Show, Eq, Ord) #}
 
+deriveStorable ''AlpmQuestionType
+deriveGStorable ''AlpmQuestionType
+
 {#enum alpm_progress_t as AlpmProgress {underscoreToCase} deriving (Show, Eq, Ord) #}
+
+deriveStorable ''AlpmProgress
+deriveGStorable ''AlpmProgress
 
 {#enum alpm_db_usage_t as AlpmDBUsage {underscoreToCase} deriving (Show, Eq, Ord) #}
 
+deriveStorable ''AlpmDBUsage
+deriveGStorable ''AlpmDBUsage
+
 {#enum alpm_caps as AlpmCaps {underscoreToCase} deriving (Show, Eq, Ord) #}
+
+deriveStorable ''AlpmCaps
+deriveGStorable ''AlpmCaps
 
 -----------------------------------------------
 -- Opaque Pointers

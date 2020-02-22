@@ -20,6 +20,8 @@ import           GHC.Generics
 #include <alpm_list.h>
 
 
+{#pointer *alpm_errno_t as AlpmErrnoPtr -> AlpmErrno #}
+
 {#enum alpm_errno_t as AlpmErrno {underscoreToCase} deriving (Show, Eq, Ord) #}
 
 deriveStorable ''AlpmErrno
@@ -111,18 +113,22 @@ deriveGStorable ''AlpmCaps
 {#pointer *alpm_handle_t as AlpmHandle newtype #}
 
 deriving instance Storable AlpmHandle
+deriveGStorable ''AlpmHandle
 
 {#pointer *alpm_db_t as AlpmDatabase newtype #}
 
 deriving instance Storable AlpmDatabase
+deriveGStorable ''AlpmDatabase
 
 {#pointer *alpm_pkg_t as AlpmPackage newtype #}
 
 deriving instance Storable AlpmPackage
+deriveGStorable ''AlpmPackage
 
 {#pointer *alpm_trans_t as AlpmTransaction newtype #}
 
 deriving instance Storable AlpmTransaction
+deriveGStorable ''AlpmTransaction
 
 ----------------------------------------------
 -- Pointers
@@ -146,6 +152,8 @@ data AlpmGroup
       }
     deriving Generic
 
+instance GStorable AlpmGroup
+
 {#pointer *alpm_group_t as AlpmGroupPtr -> AlpmGroup #}
 
 data AlpmFile
@@ -156,6 +164,8 @@ data AlpmFile
       }
     deriving Generic
 
+instance GStorable AlpmFile
+
 {#pointer *alpm_file_t as AlpmFilePtr -> AlpmFile #}
 
 data AlpmFilelist
@@ -164,6 +174,8 @@ data AlpmFilelist
       , files  :: AlpmFilePtr
       }
     deriving Generic
+
+instance GStorable AlpmFilelist
 
 {#pointer *alpm_filelist_t as AlpmFilelistPtr -> AlpmFilelist #}
 
@@ -209,8 +221,6 @@ instance GStorable AlpmSiglist
 
 {#pointer *alpm_siglist_t as AlpmSiglistPtr
  foreign finalizer alpm_siglist_cleanup -> AlpmSiglist #}
-
-{#pointer *alpm_errno_t as AlpmErrnoPtr -> AlpmErrno #}
 
 data AlpmConflict
     = AlpmConflict

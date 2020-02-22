@@ -167,11 +167,36 @@ data AlpmFilelist
 
 {#pointer *alpm_filelist_t as AlpmFilelistPtr -> AlpmFilelist #}
 
-{#pointer *alpm_sigresult_t as AlpmSigResultPtr newtype #}
+data AlpmPgpkey
+    = AlpmPgpkey
+      { payload :: Ptr ()
+      , fingerprint :: CString
+      , uid :: CString
+      , name :: CString
+      , email :: CString
+      , created :: CLong
+      , expires :: CLong
+      , length :: CUInt
+      , revoked :: CUInt
+      , pubkeyAlgo :: CChar
+      }
+    deriving Generic
 
-deriving instance Storable AlpmSigResultPtr
+instance GStorable AlpmPgpkey
 
-deriveGStorable ''AlpmSigResultPtr
+{#pointer *alpm_pgpkey_t as AlpmPgpkeyPtr -> AlpmPgpkey #}
+
+data AlpmSigResult
+    = AlpmSigResult
+      { key :: AlpmPgpkey
+      , status :: AlpmSigStatus
+      , validity :: AlpmSigValidity
+      }
+    deriving Generic
+
+instance GStorable AlpmSigResult
+
+{#pointer *alpm_sigresult_t as AlpmSigResultPtr -> AlpmSigResult #}
 
 data AlpmSiglist
     = AlpmSiglist

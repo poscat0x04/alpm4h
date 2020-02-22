@@ -87,6 +87,6 @@ import           Data.Text (Text)
 {#fun alpm_option_get_assumeinstalled as ^ {`AlpmHandle'} -> `AlpmListPtr' #}
 {#fun alpm_option_set_assumeinstalled as ^ {`AlpmHandle', `AlpmListPtr'} -> `Bool' #}
 {#fun alpm_option_add_assumeinstalled as ^ { `AlpmHandle'
-                                           , `AlpmDependency'} -> `Bool' #}
+                                           , `AlpmDependencyPtr'} -> `Bool' #}
 {#fun alpm_option_remove_assumeinstalled as ^ { `AlpmHandle'
-                                              , `AlpmDependency'} -> `Bool' #}
+                                              , `AlpmDependencyPtr'} -> `Bool' #}

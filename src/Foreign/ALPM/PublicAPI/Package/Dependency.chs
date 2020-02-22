@@ -22,8 +22,8 @@ import           Data.Text (Text)
                                    , withCString* `Text'
                                    } -> `AlpmPackage' #}
 {#fun alpm_checkconflicts as ^ {`AlpmHandle', `AlpmListPtr'} -> `AlpmListPtr' #}
-{#fun alpm_dep_compute_string as ^ {`AlpmDependency'} -> `Text' peekCString* #}
-{#fun alpm_dep_from_string as ^ {withCString* `Text'} -> `AlpmDependency' #}
-{#fun alpm_dep_free as ^ {`AlpmDependency'} -> `()' #}
+{#fun alpm_dep_compute_string as ^ {`AlpmDependencyPtr'} -> `Text' peekCString* #}
+{#fun alpm_dep_from_string as ^ {withCString* `Text'} -> `AlpmDependencyPtr' #}
+{#fun alpm_dep_free as ^ {`AlpmDependencyPtr'} -> `()' #}
 
 

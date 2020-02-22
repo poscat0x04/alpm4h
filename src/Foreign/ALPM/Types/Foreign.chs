@@ -190,9 +190,17 @@ data AlpmFileConflict
 
 {#pointer *alpm_fileconflict_t as AlpmFileConflictPtr -> AlpmFileConflict #}
 
-{#pointer *alpm_depend_t as AlpmDependency newtype #}
+data AlpmDependency
+    = AlpmDependency
+      { name :: CString
+      , version :: CString
+      , desc :: CString
+      , nameHash :: CULong
+      , depmod :: AlpmDepmod
+      }
+    deriving Generic
 
-deriving instance Storable AlpmDependency
+{#pointer *alpm_depend_t as AlpmDependencyPtr -> AlpmDependency #}
 
 {#pointer *alpm_depmissing_t as AlpmDepmissing newtype #}
 

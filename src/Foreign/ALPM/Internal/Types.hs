@@ -7,7 +7,7 @@ module Foreign.ALPM.Internal.Types
        , module Control.Monad.Reader
        , module Control.Monad.Except
        , AlpmError (..)
-       , AlpmMonad (..)
+       , AlpmM     (..)
        , Trace
        , AlpmList  (..)
        ) where
@@ -27,11 +27,11 @@ data AlpmError = AlpmError Trace (Maybe AlpmErrno) deriving (Typeable, Show)
 
 instance Exception AlpmError where
 
-newtype AlpmMonad a
-    = AlpmMonad (ReaderT AlpmHandle (ExceptT AlpmError IO) a)
+newtype AlpmM a
+    = AlpmM (ReaderT AlpmHandle (ExceptT AlpmError IO) a)
     deriving (Functor, Applicative, Monad, MonadIO)
 
-deriving instance MonadError AlpmError AlpmMonad
-deriving instance MonadReader AlpmHandle AlpmMonad
+deriving instance MonadError AlpmError AlpmM
+deriving instance MonadReader AlpmHandle AlpmM
 
 newtype AlpmList a = AlpmList { unAlpmList :: AlpmListPtr }

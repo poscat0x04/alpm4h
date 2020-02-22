@@ -16,7 +16,7 @@ import           Foreign.ALPM.List
 import           GHC.Stack
 
 
-transInit :: Set AlpmTransFlag -> AlpmMonad ()
+transInit :: Set AlpmTransFlag -> AlpmM ()
 transInit s = do
     h <- ask
     b <- liftIO $ alpmTransInit h s
@@ -25,7 +25,7 @@ transInit s = do
         stack <- liftIO currentCallStack
         throwError $ AlpmError stack (Just errno)
 
-transPrepare :: AlpmMonad (Maybe (Trace, AlpmErrno, AlpmList AlpmDepmissing))
+transPrepare :: AlpmM (Maybe (Trace, AlpmErrno, AlpmList AlpmDepmissing))
 transPrepare = do
     h <- ask
     (b, hlist) <- liftIO $ alpmTransPrepare h
@@ -38,7 +38,7 @@ transPrepare = do
       else
         return Nothing
 
-transRelease :: AlpmMonad ()
+transRelease :: AlpmM ()
 transRelease = do
     h <- ask
     b <- liftIO $ alpmTransRelease h
@@ -47,7 +47,7 @@ transRelease = do
         stack <- liftIO currentCallStack
         throwError $ AlpmError stack (Just errno)
 
-transInterrupt :: AlpmMonad ()
+transInterrupt :: AlpmM ()
 transInterrupt = do
     h <- ask
     b <- liftIO $ alpmTransInterrupt h
@@ -56,7 +56,7 @@ transInterrupt = do
         stack <- liftIO currentCallStack
         throwError $ AlpmError stack (Just errno)
 
-transCommit :: AlpmMonad (Maybe (Trace, AlpmErrno, AlpmList AlpmFileConflict))
+transCommit :: AlpmM (Maybe (Trace, AlpmErrno, AlpmList AlpmFileConflict))
 transCommit = do
     h <- ask
     (b, hlist) <- liftIO $ alpmTransCommit h
@@ -69,18 +69,18 @@ transCommit = do
       else do
         return Nothing
 
-transGetFlags :: AlpmMonad (Set AlpmTransFlag)
+transGetFlags :: AlpmM (Set AlpmTransFlag)
 transGetFlags = do
     h <- ask
     liftIO $ alpmTransGetFlags h
 
-transGetAdd :: AlpmMonad (AlpmList AlpmPackage)
+transGetAdd :: AlpmM (AlpmList AlpmPackage)
 transGetAdd = do
     h <- ask
     hlist <- liftIO $ alpmTransGetAdd h
     return $ fromHList hlist
 
-transGetRemove :: AlpmMonad (AlpmList AlpmPackage)
+transGetRemove :: AlpmM (AlpmList AlpmPackage)
 transGetRemove = do
     h <- ask
     hlist <- liftIO $ alpmTransGetRemove h

@@ -1,5 +1,5 @@
 module Foreign.ALPM
-       ( runAlpmMonad
+       ( runAlpmM
        ) where
 
 import           Control.Monad.Except
@@ -11,15 +11,15 @@ import           Foreign
 import           GHC.Stack
 
 
--- | Running an AlpmMonad, all errors occured in buissness logic is captured
+-- | Running an AlpmM, all errors occured in buissness logic is captured
 -- in Either, async excpetions still might be thrown, error will be called if the
 -- handled failed to release.
-runAlpmMonad
+runAlpmM
   :: Text         -- ^ path to root
   -> Text         -- ^ path to database
-  -> AlpmMonad a
+  -> AlpmM a
   -> IO (Either AlpmError a)
-runAlpmMonad root dbpath (AlpmMonad m) =
+runAlpmM root dbpath (AlpmM m) =
     alloca $ \ptr -> do
     h@(AlpmHandle handle) <- alpmInitialize root dbpath ptr
     if handle == nullPtr

@@ -264,7 +264,8 @@ data AlpmDepmissing
 
 instance GStorable AlpmDepmissing
 
-{#pointer *alpm_depmissing_t as AlpmDepmissingPtr -> AlpmDepmissing #}
+{#pointer *alpm_depmissing_t as AlpmDepmissingPtr
+ foreign finalizer alpm_depmissing_free -> AlpmDepmissing #}
 
 ---------------------------------------------------
 -- Synonyms

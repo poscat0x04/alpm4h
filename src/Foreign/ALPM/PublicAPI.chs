@@ -11,8 +11,6 @@ module Foreign.ALPM.PublicAPI
        , alpmUnlock
        , alpmVersion
        , alpmCapabilities
-       , alpmFileconflictFree
-       , alpmDepmissingFree
        ) where
 
 {# import Foreign.ALPM.Types.Foreign #}
@@ -37,6 +35,4 @@ import           Data.Text (Text)
 {#fun alpm_version as ^ {} -> `Text' peekCString* #}
 {#fun alpm_capabilities as ^ {} -> `Int' #}
 
-{#fun alpm_fileconflict_free as ^ {`AlpmFileConflictPtr'} -> `()' #}
-{#fun alpm_depmissing_free as ^ {`AlpmDepmissingPtr'} -> `()' #}
 

@@ -3,6 +3,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE DuplicateRecordFields #-}
 module Foreign.ALPM.Types.Foreign where
 
 import           Data.Coerce
@@ -127,8 +128,8 @@ deriving instance Storable AlpmTransaction
 
 data AlpmGroup
     = AlpmGroup
-      { groupName :: CString
-      , groupPackages :: AlpmListPtr
+      { name :: CString
+      , packages :: AlpmListPtr
       }
     deriving Generic
 
@@ -136,9 +137,9 @@ data AlpmGroup
 
 data AlpmFile
     = AlpmFile
-      { fileName :: CString
-      , fileSize :: CLong
-      , fileMode :: CUInt
+      { name :: CString
+      , size :: CLong
+      , mode :: CUInt
       }
     deriving Generic
 
@@ -146,16 +147,22 @@ data AlpmFile
 
 data AlpmFilelist
     = AlpmFilelist
-      { fileCount :: CSize
-      , fileList  :: AlpmFilePtr
+      { count  :: CSize
+      , files  :: AlpmFilePtr
       }
     deriving Generic
 
 {#pointer *alpm_filelist_t as AlpmFilelistPtr -> AlpmFilelist #}
 
-{#pointer *alpm_siglist_t as AlpmSiglist newtype #}
+{#pointer *alpm_sigresult_t as AlpmSigResultPtr newtype #}
 
-deriving instance Storable AlpmSiglist
+data AlpmSiglist
+    = AlpmSiglist
+      { count :: CSize
+      , results :: AlpmSigResultPtr
+      }
+
+{#pointer *alpm_siglist_t as AlpmSiglistPtr -> AlpmSiglist #}
 
 {#pointer *alpm_errno_t as AlpmErrnoPtr -> AlpmErrno #}
 

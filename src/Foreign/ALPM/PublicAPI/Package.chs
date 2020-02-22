@@ -94,9 +94,9 @@ import           Foreign.C.Types
 {#fun alpm_pkg_compute_optionalfor as ^ {`AlpmPackage'} -> `AlpmListPtr' #}
 {#fun alpm_pkg_should_ignore as ^ {`AlpmHandle', `AlpmPackage'} -> `Bool' #}
 {#fun alpm_filelist_contains as ^ {`AlpmFilelistPtr', withCString* `Text'} -> `AlpmFilePtr' #}
-{#fun alpm_pkg_check_pgp_signature as ^ {`AlpmPackage', `AlpmSiglist'} -> `Int' #}
-{#fun alpm_db_check_pgp_signature as ^ {`AlpmDatabase', `AlpmSiglist'} -> `Int' #}
-{#fun alpm_siglist_cleanup as ^ {`AlpmSiglist'} -> `Bool' #}
+{#fun alpm_pkg_check_pgp_signature as ^ {`AlpmPackage', `AlpmSiglistPtr'} -> `Int' #}
+{#fun alpm_db_check_pgp_signature as ^ {`AlpmDatabase', `AlpmSiglistPtr'} -> `Int' #}
+{#fun alpm_siglist_cleanup as ^ {`AlpmSiglistPtr'} -> `Bool' #}
 {#fun alpm_decode_signature as ^ { withCString* `Text'
                                  , alloca- `Ptr CUChar' peek*
                                  , alloca- `CULong' peek*

@@ -6,9 +6,11 @@ module Foreign.ALPM.Internal.Types
        , AlpmError (..)
        , AlpmMonad (..)
        , Trace
+       , AlpmList
        ) where
 
 import           Foreign.ALPM.Types.Foreign
+import           Foreign
 import           Control.Monad.IO.Class
 import           Control.Monad.Reader
 import           Control.Monad.Except
@@ -28,3 +30,5 @@ newtype AlpmMonad a
 
 deriving instance MonadError AlpmError AlpmMonad
 deriving instance MonadReader AlpmHandle AlpmMonad
+
+type AlpmList a = [Ptr a]

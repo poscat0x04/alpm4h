@@ -28,7 +28,7 @@ import           Foreign.C.Types
 {#fun alpm_db_get_pkgcache as ^ {`AlpmDatabase'} -> `AlpmListPtr' #}
 {#fun alpm_db_get_group as ^ { `AlpmDatabase'
                              , withCString* `Text'
-                             } -> `AlpmGroup' #}
+                             } -> `AlpmGroupPtr' #}
 {#fun alpm_db_get_groupcache as ^ {`AlpmDatabase'} -> `AlpmListPtr' #}
 {#fun alpm_db_search as ^ { `AlpmDatabase'
                           , `AlpmListPtr'

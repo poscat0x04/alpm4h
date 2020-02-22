@@ -10,10 +10,12 @@ import           Foreign.Ptr
 import           Foreign.Storable
 import           Foreign.ALPM.Internal.TH
 import           Foreign.C.Types
+import           Foreign.C.String
 import           Foreign.Storable.Generic
 import           GHC.Generics
 
 #include <alpm.h>
+#include <alpm_list.h>
 
 
 {#enum alpm_errno_t as AlpmErrno {underscoreToCase} deriving (Show, Eq, Ord) #}
@@ -123,9 +125,14 @@ deriving instance Storable AlpmTransaction
 ----------------------------------------------
 -- Pointers
 
-{#pointer *alpm_group_t as AlpmGroup newtype #}
+data AlpmGroup
+    = AlpmGroup
+      { groupName :: CString
+      , groupPackages :: AlpmListPtr
+      }
+    deriving Generic
 
-deriving instance Storable AlpmGroup
+{#pointer *alpm_group_t as AlpmGroupPtr -> AlpmGroup #}
 
 {#pointer *alpm_file_t as AlpmFile newtype #}
 

@@ -207,7 +207,8 @@ data AlpmSiglist
 
 instance GStorable AlpmSiglist
 
-{#pointer *alpm_siglist_t as AlpmSiglistPtr -> AlpmSiglist #}
+{#pointer *alpm_siglist_t as AlpmSiglistPtr
+ foreign finalizer alpm_siglist_cleanup -> AlpmSiglist #}
 
 {#pointer *alpm_errno_t as AlpmErrnoPtr -> AlpmErrno #}
 

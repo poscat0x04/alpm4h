@@ -3,6 +3,9 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 module Foreign.ALPM.Internal.Types
        ( module Foreign.ALPM.Types.Foreign
+       , module Control.Monad.IO.Class
+       , module Control.Monad.Reader
+       , module Control.Monad.Except
        , AlpmError (..)
        , AlpmMonad (..)
        , Trace

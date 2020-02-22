@@ -10,6 +10,7 @@ import           Data.Coerce
 import           Foreign.Ptr
 import           Foreign.Storable
 import           Foreign.ALPM.Internal.TH
+import           Foreign.ALPM.Internal.GStorableInstances
 import           Foreign.C.Types
 import           Foreign.C.String
 import           Foreign.Storable.Generic
@@ -126,6 +127,18 @@ deriving instance Storable AlpmTransaction
 ----------------------------------------------
 -- Pointers
 
+data AlpmHList
+    = AlpmHList
+      { payload :: Ptr ()
+      , prev :: AlpmListPtr
+      , next :: AlpmListPtr
+      }
+    deriving Generic
+
+instance GStorable AlpmHList
+
+{#pointer *alpm_list_t as AlpmListPtr -> AlpmHList #}
+
 data AlpmGroup
     = AlpmGroup
       { name :: CString
@@ -156,12 +169,18 @@ data AlpmFilelist
 
 {#pointer *alpm_sigresult_t as AlpmSigResultPtr newtype #}
 
+deriving instance Storable AlpmSigResultPtr
+
+deriveGStorable ''AlpmSigResultPtr
+
 data AlpmSiglist
     = AlpmSiglist
       { count :: CSize
       , results :: AlpmSigResultPtr
       }
     deriving Generic
+
+instance GStorable AlpmSiglist
 
 {#pointer *alpm_siglist_t as AlpmSiglistPtr -> AlpmSiglist #}
 
@@ -177,6 +196,8 @@ data AlpmConflict
       }
     deriving Generic
 
+instance GStorable AlpmConflict
+
 {#pointer *alpm_conflict_t as AlpmConflictPtr -> AlpmConflict #}
 
 data AlpmFileConflict
@@ -187,6 +208,8 @@ data AlpmFileConflict
       , ctarget :: CString
       }
     deriving Generic
+
+instance GStorable AlpmFileConflict
 
 {#pointer *alpm_fileconflict_t as AlpmFileConflictPtr -> AlpmFileConflict #}
 
@@ -200,6 +223,8 @@ data AlpmDependency
       }
     deriving Generic
 
+instance GStorable AlpmDependency
+
 {#pointer *alpm_depend_t as AlpmDependencyPtr -> AlpmDependency #}
 
 data AlpmDepmissing
@@ -210,11 +235,9 @@ data AlpmDepmissing
       }
     deriving Generic
 
+instance GStorable AlpmDepmissing
+
 {#pointer *alpm_depmissing_t as AlpmDepmissingPtr -> AlpmDepmissing #}
-
-{#pointer *alpm_list_t as AlpmListPtr newtype #}
-
-deriving instance Storable AlpmListPtr
 
 ---------------------------------------------------
 -- Synonyms

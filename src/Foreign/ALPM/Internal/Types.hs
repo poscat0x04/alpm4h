@@ -9,7 +9,7 @@ module Foreign.ALPM.Internal.Types
        , AlpmError (..)
        , AlpmMonad (..)
        , Trace
-       , AlpmList
+       , AlpmList  (..)
        ) where
 
 import           Foreign.ALPM.Types.Foreign
@@ -34,4 +34,4 @@ newtype AlpmMonad a
 deriving instance MonadError AlpmError AlpmMonad
 deriving instance MonadReader AlpmHandle AlpmMonad
 
-type AlpmList a = [Ptr a]
+newtype AlpmList a = AlpmList { unAlpmList :: AlpmListPtr }

@@ -33,7 +33,7 @@ transPrepare = do
       then do
         errno <- liftIO $ alpmErrno h
         stack <- liftIO currentCallStack
-        l <- liftIO $ fromHList hlist
+        let l = fromHList hlist
         return $ Just (stack, errno, l)
       else
         return Nothing
@@ -64,7 +64,7 @@ transCommit = do
       then do
         errno <- liftIO $ alpmErrno h
         stack <- liftIO currentCallStack
-        l <- liftIO $ fromHList hlist
+        let l = fromHList hlist
         return $ Just (stack, errno, l)
       else do
         return Nothing
@@ -78,10 +78,10 @@ transGetAdd :: AlpmMonad (AlpmList AlpmPackage)
 transGetAdd = do
     h <- ask
     hlist <- liftIO $ alpmTransGetAdd h
-    liftIO $ fromHList hlist
+    return $ fromHList hlist
 
 transGetRemove :: AlpmMonad (AlpmList AlpmPackage)
 transGetRemove = do
     h <- ask
     hlist <- liftIO $ alpmTransGetRemove h
-    liftIO $ fromHList hlist
+    return $ fromHList hlist

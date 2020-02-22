@@ -1,22 +1,30 @@
 module Foreign.ALPM.List where
 
-import           Foreign.ALPM.Internal.Types ( AlpmHList(..)
-                                             , AlpmList
+import           Foreign.ALPM.Internal.Types ( AlpmHList (..)
+                                             , AlpmList  (..)
                                              , AlpmListPtr
                                              )
 import           Foreign.ALPM.AlpmList
 import           Foreign
 
 
--- | Converts a HList to List recursively
-fromHList :: AlpmListPtr -> IO (AlpmList a)
-fromHList l = do
+-- | Annotate a HList
+fromHList :: AlpmListPtr -> AlpmList a
+fromHList = AlpmList
+
+-- | Get the content of an annotated HList
+toHList :: AlpmList a -> AlpmListPtr
+toHList = unAlpmList
+
+-- | Convert an AlpmList to a list
+toList :: AlpmList a -> IO [Ptr a]
+toList (AlpmList l) = do
     head <- alpmListNth l 0
     r <- go head
     alpmListFree head
     return r
     where
-      go :: AlpmListPtr -> IO (AlpmList a)
+      go :: AlpmListPtr -> IO [Ptr a]
       go h = do
           hv <- peek h
           let v = payload hv

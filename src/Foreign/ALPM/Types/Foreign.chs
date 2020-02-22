@@ -202,9 +202,15 @@ data AlpmDependency
 
 {#pointer *alpm_depend_t as AlpmDependencyPtr -> AlpmDependency #}
 
-{#pointer *alpm_depmissing_t as AlpmDepmissing newtype #}
+data AlpmDepmissing
+    = AlpmDepmissing
+      { target :: CString
+      , depend :: AlpmDependencyPtr
+      , causingPkg :: CString
+      }
+    deriving Generic
 
-deriving instance Storable AlpmDepmissing
+{#pointer *alpm_depmissing_t as AlpmDepmissingPtr -> AlpmDepmissing #}
 
 {#pointer *alpm_list_t as AlpmListPtr newtype #}
 

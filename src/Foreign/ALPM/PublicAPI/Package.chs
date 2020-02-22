@@ -93,7 +93,7 @@ import           Foreign.C.Types
 {#fun alpm_pkg_compute_requiredby as ^ {`AlpmPackage'} -> `AlpmListPtr' #}
 {#fun alpm_pkg_compute_optionalfor as ^ {`AlpmPackage'} -> `AlpmListPtr' #}
 {#fun alpm_pkg_should_ignore as ^ {`AlpmHandle', `AlpmPackage'} -> `Bool' #}
-{#fun alpm_filelist_contains as ^ {`AlpmFilelist', withCString* `Text'} -> `AlpmFilePtr' #}
+{#fun alpm_filelist_contains as ^ {`AlpmFilelistPtr', withCString* `Text'} -> `AlpmFilePtr' #}
 {#fun alpm_pkg_check_pgp_signature as ^ {`AlpmPackage', `AlpmSiglist'} -> `Int' #}
 {#fun alpm_db_check_pgp_signature as ^ {`AlpmDatabase', `AlpmSiglist'} -> `Int' #}
 {#fun alpm_siglist_cleanup as ^ {`AlpmSiglist'} -> `Bool' #}
@@ -139,7 +139,7 @@ import           Foreign.C.Types
 {#fun alpm_pkg_get_conflicts as ^ {`AlpmPackage'} -> `AlpmListPtr' #}
 {#fun alpm_pkg_get_provides as ^ {`AlpmPackage'} -> `AlpmListPtr' #}
 {#fun alpm_pkg_get_replaces as ^ {`AlpmPackage'} -> `AlpmListPtr' #}
-{#fun alpm_pkg_get_files as ^ {`AlpmPackage'} -> `AlpmFilelist' #}
+{#fun alpm_pkg_get_files as ^ {`AlpmPackage'} -> `AlpmFilelistPtr' #}
 {#fun alpm_pkg_get_backup as ^ {`AlpmPackage'} -> `AlpmListPtr' #}
 {#fun alpm_pkg_get_db as ^ {`AlpmPackage'} -> `AlpmDatabase' #}
 {#fun alpm_pkg_get_base64_sig as ^ {`AlpmPackage'} -> `Text' peekCString* #}

@@ -142,13 +142,16 @@ data AlpmFile
       }
     deriving Generic
 
-getMode = {#get alpm_file_t -> mode #}
-
 {#pointer *alpm_file_t as AlpmFilePtr -> AlpmFile #}
 
-{#pointer *alpm_filelist_t as AlpmFilelist newtype #}
+data AlpmFilelist
+    = AlpmFilelist
+      { fileCount :: CSize
+      , fileList  :: AlpmFilePtr
+      }
+    deriving Generic
 
-deriving instance Storable AlpmFilelist
+{#pointer *alpm_filelist_t as AlpmFilelistPtr -> AlpmFilelist #}
 
 {#pointer *alpm_siglist_t as AlpmSiglist newtype #}
 

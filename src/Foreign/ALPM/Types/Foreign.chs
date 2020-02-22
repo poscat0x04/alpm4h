@@ -161,6 +161,7 @@ data AlpmSiglist
       { count :: CSize
       , results :: AlpmSigResultPtr
       }
+    deriving Generic
 
 {#pointer *alpm_siglist_t as AlpmSiglistPtr -> AlpmSiglist #}
 
@@ -174,12 +175,20 @@ data AlpmConflict
       , package2 :: CString
       , reason :: AlpmDependency
       }
+    deriving Generic
 
 {#pointer *alpm_conflict_t as AlpmConflictPtr -> AlpmConflict #}
 
-{#pointer *alpm_fileconflict_t as AlpmFileConflict newtype #}
+data AlpmFileConflict
+    = AlpmFileConflict
+      { target :: CString
+      , conflictType :: AlpmFileConflictType
+      , file :: CString
+      , ctarget :: CString
+      }
+    deriving Generic
 
-deriving instance Storable AlpmFileConflict
+{#pointer *alpm_fileconflict_t as AlpmFileConflictPtr -> AlpmFileConflict #}
 
 {#pointer *alpm_depend_t as AlpmDependency newtype #}
 

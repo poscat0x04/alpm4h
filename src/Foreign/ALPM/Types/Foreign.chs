@@ -236,7 +236,8 @@ data AlpmFileConflict
 
 instance GStorable AlpmFileConflict
 
-{#pointer *alpm_fileconflict_t as AlpmFileConflictPtr -> AlpmFileConflict #}
+{#pointer *alpm_fileconflict_t as AlpmFileConflictPtr
+ foreign finalizer alpm_fileconflict_free -> AlpmFileConflict #}
 
 data AlpmDependency
     = AlpmDependency

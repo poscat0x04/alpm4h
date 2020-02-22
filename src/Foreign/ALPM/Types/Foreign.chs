@@ -134,9 +134,17 @@ data AlpmGroup
 
 {#pointer *alpm_group_t as AlpmGroupPtr -> AlpmGroup #}
 
-{#pointer *alpm_file_t as AlpmFile newtype #}
+data AlpmFile
+    = AlpmFile
+      { fileName :: CString
+      , fileSize :: CLong
+      , fileMode :: CUInt
+      }
+    deriving Generic
 
-deriving instance Storable AlpmFile
+getMode = {#get alpm_file_t -> mode #}
+
+{#pointer *alpm_file_t as AlpmFilePtr -> AlpmFile #}
 
 {#pointer *alpm_filelist_t as AlpmFilelist newtype #}
 

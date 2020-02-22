@@ -32,6 +32,13 @@ packages:
       sha256: b9e07152e9cd98b789bd58979aa6271232f05b29c46291aedc772d680434e183
   original:
     hackage: chs-deps-0.1.0.0
+- completed:
+    hackage: derive-storable-0.1.2.0@sha256:712726e685d88692524080843c9b802df898689fccf1556493ed0dbe6d5e7a09,2849
+    pantry-tree:
+      size: 1404
+      sha256: 6d598d44e8c13087a5fb334632d3e20a5a9e0026cd9ecdfba978c66c484ddbb5
+  original:
+    hackage: derive-storable-0.1.2.0
 snapshots:
 - completed:
     size: 488576

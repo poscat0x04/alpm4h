@@ -25,6 +25,8 @@ dependencies:
 - bytestring
 - containers
 - mtl
+- derive-storable
+- template-haskell
 
 library:
   source-dirs: src

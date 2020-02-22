@@ -45,6 +45,7 @@ extra-deps:
   - chs-cabal-0.1.1.0
   - composition-prelude-2.0.5.0
   - chs-deps-0.1.0.0
+  - derive-storable-0.1.2.0
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

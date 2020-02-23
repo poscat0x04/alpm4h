@@ -1,3 +1,4 @@
+{-# LANGUAGE MultiWayIf #-}
 module Foreign.ALPM.List where
 
 import           Foreign.ALPM.Internal.Types ( AlpmHList (..)
@@ -19,18 +20,19 @@ toHList = unAlpmList
 -- | Convert an AlpmList to a list
 toList :: AlpmList a -> IO [Ptr a]
 toList (AlpmList l) = do
-    head <- alpmListNth l 0
-    r <- go head
-    alpmListFree head
+    r <- toList' l
+    alpmListFree l
     return r
-    where
-      go :: AlpmListPtr -> IO [Ptr a]
-      go h = do
-          hv <- peek h
-          let v = payload hv
-          next <- alpmListNext h
-          if next == nullPtr
-            then return [castPtr v]
-            else do
-              tail <- go next
-              return (castPtr v:tail)
+
+-- | Convert an AlpmListPtr to a list without freeing the
+-- underlying alpm_list_t
+toList' :: AlpmListPtr -> IO [Ptr a]
+toList' l =
+    if l == nullPtr
+      then return []
+      else do
+        hv <- peek l
+        let v = payload hv
+        next <- alpmListNext l
+        tail <- toList' next
+        return (castPtr v:tail)

@@ -9,6 +9,7 @@ module Foreign.ALPM.Internal.Marshal
        , decodeDBUsage
        , encodeDBUsage
        , withFreeFunc
+       , peekAndDecodeUsage
        ) where
 
 
@@ -17,6 +18,7 @@ import           Data.Bits
 import qualified Data.Set as S
 import           Data.Text (Text)
 import           Foreign.C.String (CString)
+import           Foreign.C.Types
 import           Foreign.ALPM.Types.Foreign
 import           Foreign
 import           Data.ByteString (useAsCString)
@@ -111,3 +113,6 @@ withFreeFunc f io = do
 
 peekCStringRef :: Ptr CString -> IO Text
 peekCStringRef = peek >=> peekCString
+
+peekAndDecodeUsage :: Ptr CInt -> IO (S.Set AlpmDBUsage)
+peekAndDecodeUsage ptr = decodeDBUsage <$> peek ptr

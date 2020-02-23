@@ -4,7 +4,7 @@ module Foreign.ALPM.PublicAPI.Database where
 import           Data.Text (Text)
 import           Data.Set (Set)
 import           Foreign.ALPM.Internal.Marshal
-import           Foreign.Ptr
+import           Foreign
 import           Foreign.C.Types
 
 #include <alpm.h>
@@ -36,7 +36,8 @@ import           Foreign.C.Types
 {#fun alpm_db_set_usage as ^ { `AlpmDatabase'
                              , encodeDBUsage `Set AlpmDBUsage'
                              } -> `Bool' #}
-{#fun alpm_db_get_usage as ^ {`AlpmDatabase', id `Ptr CInt'} -> `Bool' #}
+{#fun alpm_db_get_usage as ^ {`AlpmDatabase'
+                             , alloca- `Set AlpmDBUsage' peekAndDecodeUsage*} -> `Bool' #}
 
 {#fun alpm_db_get_servers as ^ {`AlpmDatabase'} -> `AlpmListPtr' #}
 {#fun alpm_db_set_servers as ^ {`AlpmDatabase', `AlpmListPtr'} -> `Bool' #}

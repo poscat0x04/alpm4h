@@ -179,6 +179,17 @@ instance GStorable AlpmFilelist
 
 {#pointer *alpm_filelist_t as AlpmFilelistPtr -> AlpmFilelist #}
 
+data AlpmBackup
+    = AlpmBackup
+      { name :: CString
+      , hash :: CString
+      }
+    deriving Generic
+
+instance GStorable AlpmBackup
+
+{#pointer *alpm_backup_t as AlpmBackupPtr -> AlpmBackup #}
+
 data AlpmPgpkey
     = AlpmPgpkey
       { payload :: Ptr ()

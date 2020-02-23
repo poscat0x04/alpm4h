@@ -294,3 +294,6 @@ instance GStorable AlpmDepmissing
 
 -- | Frees the value pointed by a void pointer
 type FreeFunc = Ptr () -> IO ()
+
+type Sig = Ptr CUChar
+type SigLen = CULong

@@ -96,13 +96,13 @@ import           Foreign.C.Types
 {#fun alpm_pkg_check_pgp_signature as ^ {`AlpmPackage', `AlpmSiglistPtr'} -> `Int' #}
 {#fun alpm_db_check_pgp_signature as ^ {`AlpmDatabase', `AlpmSiglistPtr'} -> `Int' #}
 {#fun alpm_decode_signature as ^ { withCString* `Text'
-                                 , alloca- `Ptr CUChar' peek*
-                                 , alloca- `CULong' peek*
+                                 , alloca- `Sig' peek*
+                                 , alloca- `SigLen' peek*
                                  } -> `Bool' #}
 {#fun alpm_extract_keyid as ^ { `AlpmHandle'
                               , withCString* `Text'
-                              , id `Ptr CUChar'
-                              , `Word64'
+                              , id `Sig'
+                              , id `SigLen'
                               , alloca- `AlpmListPtr' peek*
                               } -> `Bool' #}
 {#fun alpm_find_group_pkgs as ^ {`AlpmListPtr', withCString* `Text'} -> `AlpmListPtr' #}

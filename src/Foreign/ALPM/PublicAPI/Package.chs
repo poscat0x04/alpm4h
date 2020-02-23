@@ -119,8 +119,8 @@ import           Foreign.C.Types
 {#fun alpm_pkg_get_origin as ^ {`AlpmPackage'} -> `Int' #}
 {#fun alpm_pkg_get_desc as ^ {`AlpmPackage'} -> `Text' peekCString* #}
 {#fun alpm_pkg_get_url as ^ {`AlpmPackage'} -> `Text' peekCString* #}
-{#fun alpm_pkg_get_builddate as ^ {`AlpmPackage'} -> `Int' #}
-{#fun alpm_pkg_get_installdate as ^ {`AlpmPackage'} -> `Int' #}
+{#fun alpm_pkg_get_builddate as ^ {`AlpmPackage'} -> `Int64' #}
+{#fun alpm_pkg_get_installdate as ^ {`AlpmPackage'} -> `Int64' #}
 {#fun alpm_pkg_get_packager as ^ {`AlpmPackage'} -> `Text' peekCString* #}
 {#fun alpm_pkg_get_md5sum as ^ {`AlpmPackage'} -> `Text' peekCString* #}
 {#fun alpm_pkg_get_sha256sum as ^ {`AlpmPackage'} -> `Text' peekCString* #}

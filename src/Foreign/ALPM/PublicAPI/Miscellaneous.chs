@@ -1,4 +1,7 @@
-module Foreign.ALPM.PublicAPI.Miscellaneous where
+module Foreign.ALPM.PublicAPI.Miscellaneous
+       ( alpmComputeMd5sum
+       , alpmComputeSha256sum
+       ) where
 
 {# import Foreign.ALPM.Types.Foreign #}
 import           Data.Text (Text)

@@ -1,4 +1,6 @@
-module Foreign.ALPM.PublicAPI.Logging where
+module Foreign.ALPM.PublicAPI.Logging
+       ( alpmLogaction
+       ) where
 
 
 {# import Foreign.ALPM.Types.Foreign #}

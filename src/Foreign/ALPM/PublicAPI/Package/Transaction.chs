@@ -1,4 +1,13 @@
-module Foreign.ALPM.PublicAPI.Package.Transaction where
+module Foreign.ALPM.PublicAPI.Package.Transaction
+       ( alpmTransGetFlags
+       , alpmTransGetAdd
+       , alpmTransGetRemove
+       , alpmTransInit
+       , alpmTransPrepare
+       , alpmTransCommit
+       , alpmTransInterrupt
+       , alpmTransRelease
+       ) where
 
 {# import Foreign.ALPM.Types.Foreign #}
 import           Data.Set (Set)

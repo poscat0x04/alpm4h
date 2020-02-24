@@ -1,4 +1,26 @@
-module Foreign.ALPM.PublicAPI.Database where
+module Foreign.ALPM.PublicAPI.Database
+       ( alpmGetLocaldb
+       , alpmGetSyncdbs
+       , alpmRegisterSyncdb
+       , alpmUnregisterAllSyncdbs
+       , alpmDbUnregister
+       , alpmDbGetName
+       , alpmDbGetSiglevel
+       , alpmDbGetValid
+       , alpmDbUpdate
+       , alpmDbGetPkg
+       , alpmDbGetPkgcache
+       , alpmDbGetGroup
+       , alpmDbGetGroup
+       , alpmDbGetGroupcache
+       , alpmDbSearch
+       , alpmDbSetUsage
+       , alpmDbGetUsage
+       , alpmDbGetServers
+       , alpmDbSetServers
+       , alpmDbAddServer
+       , alpmDbRemoveServer
+       ) where
 
 {# import Foreign.ALPM.Types.Foreign #}
 import           Data.Text (Text)

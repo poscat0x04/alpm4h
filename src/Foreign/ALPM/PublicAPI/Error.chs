@@ -1,4 +1,7 @@
-module Foreign.ALPM.PublicAPI.Error where
+module Foreign.ALPM.PublicAPI.Error
+       ( alpmErrno
+       , alpmStrerror
+       ) where
 
 {# import Foreign.ALPM.Types.Foreign #}
 import           Foreign.ALPM.Internal.Marshal

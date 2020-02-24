@@ -1,4 +1,7 @@
-module Foreign.ALPM.PublicAPI.Interface where
+module Foreign.ALPM.PublicAPI.Interface
+       ( alpmInitialize
+       , alpmRelease
+       ) where
 
 {#import Foreign.ALPM.Types.Foreign #}
 import           Foreign.C hiding ( withCString

@@ -1,4 +1,12 @@
-module Foreign.ALPM.PublicAPI.Package.Dependency where
+module Foreign.ALPM.PublicAPI.Package.Dependency
+       ( alpmCheckdeps
+       , alpmFindSatisfier
+       , alpmFindDbsSatisfier
+       , alpmCheckconflicts
+       , alpmDepComputeString
+       , alpmDepFromString
+       , alpmDepFree
+       ) where
 
 {# import Foreign.ALPM.Types.Foreign #}
 import           Foreign.ALPM.Internal.Marshal

@@ -29,6 +29,17 @@ dependencies:
 - template-haskell
 
 library:
+  exposed-modules:
+    - Foreign.ALPM
+    - Foreign.ALPM.Types
+    - Foreign.ALPM.PublicAPI
+    - Foreign.ALPM.Transaction
+    - Foreign.ALPM.Package
+    - Foreign.ALPM.Options
+    - Foreign.ALPM.Logging
+    - Foreign.ALPM.List
+    - Foreign.ALPM.Dependency
+    - Foreign.ALPM.Database
   source-dirs: src
 
 extra-libraries:

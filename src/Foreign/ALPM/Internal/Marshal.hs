@@ -10,6 +10,11 @@ module Foreign.ALPM.Internal.Marshal
        , encodeDBUsage
        , withFreeFunc
        , peekAndDecodeUsage
+       , ifNotNull
+       , ifNotNullPkg
+       , ifNotNullDB
+       , peekMaybe
+       , peekMaybeCString
        ) where
 
 
@@ -116,3 +121,18 @@ peekCStringRef = peek >=> peekCString
 
 peekAndDecodeUsage :: Ptr CInt -> IO (S.Set AlpmDBUsage)
 peekAndDecodeUsage ptr = decodeDBUsage <$> peek ptr
+
+ifNotNull :: Ptr a -> Maybe (Ptr a)
+ifNotNull p = if p == nullPtr then Nothing else Just p
+
+ifNotNullPkg :: AlpmPackage -> Maybe AlpmPackage
+ifNotNullPkg p@(AlpmPackage ptr) = if ptr == nullPtr then Nothing else Just p
+
+ifNotNullDB :: AlpmDatabase -> Maybe AlpmDatabase
+ifNotNullDB db@(AlpmDatabase ptr) = if ptr ==nullPtr then Nothing else Just db
+
+peekMaybe :: Storable a => Ptr a -> IO (Maybe a)
+peekMaybe = maybePeek peek
+
+peekMaybeCString :: CString -> IO (Maybe Text)
+peekMaybeCString = maybePeek peekCString

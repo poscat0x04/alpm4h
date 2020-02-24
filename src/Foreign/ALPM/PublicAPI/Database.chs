@@ -15,20 +15,21 @@ import           Foreign.C.Types
 {#fun alpm_register_syncdb as ^ { `AlpmHandle'
                                 , withCString* `Text'
                                 , `AlpmSigLevel'
-                                } -> `AlpmDatabase' #}
+                                } -> `Maybe AlpmDatabase' ifNotNullDB #}
 {#fun alpm_unregister_all_syncdbs as ^ {`AlpmHandle'} -> `Bool' #}
 {#fun alpm_db_unregister as ^ {`AlpmDatabase'} -> `Bool' #}
-{#fun alpm_db_get_name as ^ {`AlpmDatabase'} -> `Text' peekCString* #}
+{#fun alpm_db_get_name as ^ {`AlpmDatabase'
+                            } -> `Maybe Text' peekMaybeCString* #}
 {#fun alpm_db_get_siglevel as ^ {`AlpmDatabase'} -> `AlpmSigLevel' #}
 {#fun alpm_db_get_valid as ^ {`AlpmDatabase'} -> `Bool' #}
 {#fun alpm_db_update as ^ {`Bool', `AlpmDatabase'} -> `Int' #}
 {#fun alpm_db_get_pkg as ^ { `AlpmDatabase'
                            , withCString* `Text'
-                           } -> `AlpmPackage' #}
+                           } -> `Maybe AlpmPackage' ifNotNullPkg #}
 {#fun alpm_db_get_pkgcache as ^ {`AlpmDatabase'} -> `AlpmListPtr' #}
 {#fun alpm_db_get_group as ^ { `AlpmDatabase'
                              , withCString* `Text'
-                             } -> `AlpmGroupPtr' #}
+                             } -> `Maybe AlpmGroupPtr' ifNotNull #}
 {#fun alpm_db_get_groupcache as ^ {`AlpmDatabase'} -> `AlpmListPtr' #}
 {#fun alpm_db_search as ^ { `AlpmDatabase'
                           , `AlpmListPtr'

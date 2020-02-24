@@ -33,3 +33,11 @@ runAlpmM root dbpath (AlpmM m) =
         if b'
             then error "handle release failed"
             else return r
+
+showErrno :: AlpmErrno -> IO Text
+showErrno = alpmStrerror
+
+getErrno :: AlpmM AlpmErrno
+getErrno = do
+    h <- ask
+    liftIO $ alpmErrno h

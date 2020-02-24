@@ -14,9 +14,9 @@ import           Foreign.ALPM.Internal.Marshal
 {#fun alpm_list_free_inner as ^ { `AlpmListPtr'
                                 , withFreeFunc* `FreeFunc'
                                 } -> `()' #}
-{#fun alpm_list_add as ^ {`AlpmListPtr', `Ptr ()'} -> `AlpmListPtr' #}
+{#fun alpm_list_add as ^ {`AlpmListPtr', castPtr `Ptr a'} -> `AlpmListPtr' #}
 {#fun alpm_list_append as ^ { id `Ptr AlpmListPtr'
-                            , `Ptr ()'
+                            , castPtr `Ptr a'
                             } -> `AlpmListPtr' #}
 {#fun alpm_list_append_strdup as ^ { id `Ptr AlpmListPtr'
                                    , withCString* `Text'

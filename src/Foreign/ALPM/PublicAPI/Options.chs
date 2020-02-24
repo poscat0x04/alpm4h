@@ -32,10 +32,10 @@ import           Data.Text (Text)
 {#fun alpm_option_get_dbext as ^ {`AlpmHandle'} -> `Text' peekCString* #}
 {#fun alpm_option_set_dbext as ^ { `AlpmHandle'
                                  , withCString* `Text'} -> `Bool' #}
-{#fun alpm_option_get_default_siglevel as ^ {`AlpmHandle'} -> `Int' #}
-{#fun alpm_option_set_default_siglevel as ^ {`AlpmHandle', `Int'} -> `Bool' #}
-{#fun alpm_option_get_remote_file_siglevel as ^ {`AlpmHandle'} -> `Int' #}
-{#fun alpm_option_set_remote_file_siglevel as ^ {`AlpmHandle', `Int'} -> `Bool' #}
+{#fun alpm_option_get_default_siglevel as ^ {`AlpmHandle'} -> `AlpmSigLevel' #}
+{#fun alpm_option_set_default_siglevel as ^ {`AlpmHandle', `AlpmSigLevel'} -> `Bool' #}
+{#fun alpm_option_get_remote_file_siglevel as ^ {`AlpmHandle'} -> `AlpmSigLevel' #}
+{#fun alpm_option_set_remote_file_siglevel as ^ {`AlpmHandle', `AlpmSigLevel'} -> `Bool' #}
 {#fun alpm_option_set_disable_dl_timeout as ^ {`AlpmHandle', `Bool'} -> `Bool' #}
 
 {#fun alpm_option_get_cachedirs as ^ {`AlpmHandle'} -> `AlpmListPtr' #}

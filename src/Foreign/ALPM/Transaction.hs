@@ -9,6 +9,8 @@ module Foreign.ALPM.Transaction
        , transGetRemove
        ) where
 
+import           Control.Monad.Reader
+import           Control.Monad.Except
 import           Data.Set (Set)
 import           Foreign.ALPM.Internal.Types
 import           Foreign.ALPM.PublicAPI

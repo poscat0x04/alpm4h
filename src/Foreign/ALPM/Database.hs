@@ -1,5 +1,7 @@
 module Foreign.ALPM.Database where
 
+import           Control.Monad.Reader
+import           Control.Monad.Except
 import           Data.Set (Set)
 import           Data.Text (Text)
 import           Foreign.ALPM.Internal.Types

@@ -1,5 +1,7 @@
 module Foreign.ALPM.Options where
 
+import           Control.Monad.Reader
+import           Control.Monad.Except
 import           Data.Text (Text)
 import           Foreign
 import           Foreign.ALPM.PublicAPI

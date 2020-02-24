@@ -1,5 +1,7 @@
 module Foreign.ALPM.Package where
 
+import           Control.Monad.Reader
+import           Control.Monad.Except
 import           Data.Text (Text, pack)
 import           Foreign.ALPM.Internal.Types
 import           Foreign.ALPM.PublicAPI

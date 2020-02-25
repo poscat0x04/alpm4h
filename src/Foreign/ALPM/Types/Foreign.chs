@@ -553,5 +553,26 @@ instance Storable AlpmQuestion where
 -- | Frees the value pointed by a void pointer
 type FreeFunc = Ptr () -> IO ()
 
+type LogCbFun = CInt -> CString -> Ptr () -> IO ()
+type LogCb = FunPtr LogCbFun
+
+type DownloadCbFun = CString -> CLong -> CLong -> IO ()
+type DownloadCb = FunPtr DownloadCbFun
+
+type FetchCbFun = CString -> CString -> CInt -> IO CInt
+type FetchCb = FunPtr FetchCbFun
+
+type TotalDlCbFun = CLong -> IO ()
+type TotalDlCb = FunPtr TotalDlCbFun
+
+type EventCbFun = AlpmEventPtr -> IO ()
+type EventCb = FunPtr EventCbFun
+
+type QuestionCbFun = AlpmQuestionPtr -> IO ()
+type QuestionCb = FunPtr QuestionCbFun
+
+type ProgressCbFun = CInt -> CString -> CInt -> CULong -> CULong -> IO ()
+type ProgressCb = FunPtr ProgressCbFun
+
 type Sig = Ptr CUChar
 type SigLen = CULong

@@ -52,6 +52,21 @@ module Foreign.ALPM.PublicAPI.Options
        , alpmOptionSetAssumeinstalled
        , alpmOptionAddAssumeinstalled
        , alpmOptionRemoveAssumeinstalled
+
+       , alpmOptionGetLogcb
+       , alpmOptionSetLogcb
+       , alpmOptionGetDlcb
+       , alpmOptionSetDlcb
+       , alpmOptionGetFetchcb
+       , alpmOptionSetFetchcb
+       , alpmOptionGetTotaldlcb
+       , alpmOptionSetTotaldlcb
+       , alpmOptionGetEventcb
+       , alpmOptionSetEventcb
+       , alpmOptionGetQuestioncb
+       , alpmOptionSetQuestioncb
+       , alpmOptionGetProgresscb
+       , alpmOptionSetProgresscb
        ) where
 
 {# import Foreign.ALPM.Types.Foreign #}

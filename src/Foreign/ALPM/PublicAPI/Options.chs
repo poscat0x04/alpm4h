@@ -61,8 +61,33 @@ import           Data.Text (Text)
 #include <alpm.h>
 
 
---  functions involving callbacks are ignored
-
+{#fun alpm_option_get_logcb as ^ {`AlpmHandle'} -> `LogCb' id #}
+{#fun alpm_option_set_logcb as ^ {`AlpmHandle'
+                                 , id `LogCb'} -> `Bool' #}
+{#fun alpm_option_get_dlcb as ^ {`AlpmHandle'} -> `DownloadCb' id #}
+{#fun alpm_option_set_dlcb as ^ { `AlpmHandle'
+                                , id `DownloadCb'
+                                } -> `Bool' #}
+{#fun alpm_option_get_fetchcb as ^ {`AlpmHandle'} -> `FetchCb' id #}
+{#fun alpm_option_set_fetchcb as ^ { `AlpmHandle'
+                                   , id `FetchCb'
+                                   } -> `Bool' #}
+{#fun alpm_option_get_totaldlcb as ^ {`AlpmHandle'} -> `TotalDlCb' id #}
+{#fun alpm_option_set_totaldlcb as ^ { `AlpmHandle'
+                                   , id `TotalDlCb'
+                                   } -> `Bool' #}
+{#fun alpm_option_get_eventcb as ^ {`AlpmHandle'} -> `EventCb' id #}
+{#fun alpm_option_set_eventcb as ^ { `AlpmHandle'
+                                   , id `EventCb'
+                                   } -> `Bool' #}
+{#fun alpm_option_get_questioncb as ^ {`AlpmHandle'} -> `QuestionCb' id #}
+{#fun alpm_option_set_questioncb as ^ { `AlpmHandle'
+                                      , id `QuestionCb'
+                                      } -> `Bool' #}
+{#fun alpm_option_get_progresscb as ^ {`AlpmHandle'} -> `ProgressCb' id #}
+{#fun alpm_option_set_progresscb as ^ { `AlpmHandle'
+                                      , id `ProgressCb'
+                                      } -> `Bool' #}
 {#fun alpm_option_get_root as ^ {`AlpmHandle'} -> `Text' peekCString* #}
 {#fun alpm_option_get_dbpath as ^ {`AlpmHandle'} -> `Text' peekCString* #}
 {#fun alpm_option_get_lockfile as ^ {`AlpmHandle'} -> `Text' peekCString* #}

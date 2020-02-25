@@ -27,6 +27,25 @@ module Foreign.ALPM.Types
        , AlpmDependencyPtr
        , AlpmDepmissing (..)
        , AlpmDepmissingPtr
+       , AlpmEvent (..)
+       , AlpmEventPtr
+       , AlpmQuestion (..)
+       , AlpmQuestionPtr
+
+       , LogCb
+       , LogCbFun
+       , DownloadCb
+       , DownloadCbFun
+       , FetchCb
+       , FetchCbFun
+       , TotalDlCb
+       , TotalDlCbFun
+       , EventCb
+       , EventCbFun
+       , QuestionCb
+       , QuestionCbFun
+       , ProgressCb
+       , ProgressCbFun
 
        , AlpmHandle
        , AlpmDatabase

@@ -1,9 +1,15 @@
 module Foreign.ALPM
        ( runAlpmM
+       , showErrno
+       , getErrno
+       , fetchPkgurl
+       , alpmVersion
+       , alpmCapabilities
        ) where
 
 import           Control.Monad.Except
 import           Control.Monad.Reader
+import           Data.Set (Set)
 import           Data.Text (Text)
 import           Foreign.ALPM.PublicAPI
 import           Foreign.ALPM.Internal.Types
@@ -41,3 +47,18 @@ getErrno :: AlpmM AlpmErrno
 getErrno = do
     h <- ask
     liftIO $ alpmErrno h
+
+fetchPkgurl :: Text -> AlpmM Text
+fetchPkgurl pkg = do
+    h <- ask
+    liftIO $ alpmFetchPkgurl h pkg
+
+unlock :: AlpmM ()
+unlock = do
+    h <- ask
+    b <- liftIO $ alpmUnlock h
+    when b $ do
+        errno <- liftIO $ alpmErrno h
+        stack <- liftIO currentCallStack
+        throwError $ AlpmError stack (Just errno)
+

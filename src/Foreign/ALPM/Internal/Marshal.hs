@@ -8,6 +8,7 @@ module Foreign.ALPM.Internal.Marshal
        , encodeTransFlag
        , decodeDBUsage
        , encodeDBUsage
+       , decodeCaps
        , withFreeFunc
        , peekAndDecodeUsage
        , ifNotNull
@@ -107,6 +108,18 @@ encodeDBUsage s =
      in if AlpmDbUsageAll `elem` l
            then toEnum $ fromEnum AlpmDbUsageAll
            else (toEnum . sum . map fromEnum) l
+
+caps :: [AlpmCaps]
+caps = [ AlpmCapabilityNls
+      , AlpmCapabilityDownloader
+      , AlpmCapabilitySignatures
+      ]
+
+decodeCaps :: Bits a => a -> S.Set AlpmCaps
+decodeCaps b =
+    let binary = fromBits b
+        zipped = fuseMaybe (\x y -> if x then Just y else Nothing) binary caps
+     in S.fromList zipped
 
 foreign import ccall "wrapper"
   mkFreeFunc :: FreeFunc -> IO (FunPtr FreeFunc)

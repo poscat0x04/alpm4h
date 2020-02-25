@@ -14,6 +14,7 @@ module Foreign.ALPM.PublicAPI
        ) where
 
 {# import Foreign.ALPM.Types.Foreign #}
+import           Data.Set (Set)
 import           Foreign.ALPM.Internal.Marshal
 import           Foreign.ALPM.PublicAPI.Package
 import           Foreign.ALPM.PublicAPI.Miscellaneous
@@ -31,8 +32,8 @@ import           Data.Text (Text)
                              , withCString* `Text'
                              } -> `Text' peekCString* #}
 
-{#fun alpm_unlock as ^ {`AlpmHandle'} -> `Int' #}
+{#fun alpm_unlock as ^ {`AlpmHandle'} -> `Bool' #}
 {#fun alpm_version as ^ {} -> `Text' peekCString* #}
-{#fun alpm_capabilities as ^ {} -> `Int' #}
+{#fun alpm_capabilities as ^ {} -> `Set AlpmCaps' decodeCaps #}
 
 

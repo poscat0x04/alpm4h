@@ -1,3 +1,4 @@
+{-# LANGUAGE MultiWayIf #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DerivingVia #-}
 {-# LANGUAGE TemplateHaskell #-}
@@ -106,6 +107,11 @@ deriveGStorable ''AlpmDBUsage
 
 deriveStorable ''AlpmCaps
 deriveGStorable ''AlpmCaps
+
+{#enum alpm_hook_when_t as AlpmHookWhen {underscoreToCase} deriving (Show, Eq, Ord) #}
+
+deriveStorable ''AlpmHookWhen
+deriveGStorable ''AlpmHookWhen
 
 -----------------------------------------------
 -- Opaque Pointers
@@ -288,6 +294,146 @@ instance GStorable AlpmDepmissing
 
 {#pointer *alpm_depmissing_t as AlpmDepmissingPtr
  foreign finalizer alpm_depmissing_free -> AlpmDepmissing #}
+
+data AlpmEvent
+    = AlpmPkgOp
+      { event :: AlpmEventType
+      , op :: AlpmPackageOperation
+      , oldpkg :: AlpmPackage
+      , newpkg :: AlpmPackage
+      }
+    | AlpmOptdepRemoval
+      { pkg :: AlpmPackage
+      , optdep :: AlpmDependencyPtr
+      }
+    | AlpmScriptlet
+      { line :: CString
+      }
+    | AlpmDBMissing
+      { dbname :: CString
+      }
+    | AlpmPkgDownload
+      { event :: AlpmEventType
+      , file :: CString
+      }
+    | AlpmPacnewCreated
+      { fromNoUpgrade :: CInt
+      , oldPkg :: AlpmPackage
+      , newPkg :: AlpmPackage
+      , file :: CString
+      }
+    | AlpmPacsaveCreated
+      { oldpkg :: AlpmPackage
+      , file :: CString
+      }
+    | AlpmEventHook
+      { event :: AlpmEventType
+      , triggertime :: AlpmHookWhen
+      }
+    | AlpmEventHookRun
+      { event :: AlpmEventType
+      , name :: CString
+      , desc :: CString
+      , position :: CULong
+      , total :: CULong
+      }
+    | Other
+      { event :: AlpmEventType
+      }
+
+instance Storable AlpmEvent where
+    sizeOf = const {#sizeof alpm_event_t #}
+    alignment = const {#alignof alpm_event_t #}
+    peek ptr = do
+        tag <- {#get alpm_event_t->type #} ptr
+        let eventType = ((toEnum $ fromEnum tag) :: AlpmEventType)
+        if | (||) <$> (== AlpmEventHookRunStart) <*> (== AlpmEventHookRunDone) $ eventType
+             -> (AlpmEventHookRun eventType) <$>
+                 {#get alpm_event_hook_run_t->name#} ptr <*>
+                 {#get alpm_event_hook_run_t->desc#} ptr <*>
+                 {#get alpm_event_hook_run_t->position#} ptr <*>
+                 {#get alpm_event_hook_run_t->total #} ptr
+           | (||) <$> (== AlpmEventHookStart) <*> (== AlpmEventHookDone) $ eventType
+             ->  do
+               i <- {#get alpm_event_hook_t -> when#} ptr
+               return $ AlpmEventHook eventType (toEnum $ fromEnum i)
+           | eventType == AlpmEventPacsaveCreated
+             ->  AlpmPacsaveCreated
+             <$> {#get alpm_event_pacsave_created_t -> oldpkg #} ptr
+             <*> {#get alpm_event_pacsave_created_t -> file #} ptr
+           | eventType == AlpmEventPacnewCreated
+             ->  AlpmPacnewCreated
+             <$> {#get alpm_event_pacnew_created_t -> from_noupgrade #} ptr
+             <*> {#get alpm_event_pacnew_created_t -> oldpkg #} ptr
+             <*> {#get alpm_event_pacnew_created_t -> newpkg #} ptr
+             <*> {#get alpm_event_pacnew_created_t -> file #} ptr
+           | (||) <$> (== AlpmEventPkgdownloadStart) <*> (== AlpmEventPkgdownloadDone) $ eventType
+             ->  (AlpmPkgDownload eventType)
+             <$> {#get alpm_event_pkgdownload_t -> file #} ptr
+           | eventType == AlpmEventDatabaseMissing
+             ->  AlpmDBMissing
+             <$> {#get alpm_event_database_missing_t -> dbname #} ptr
+           | eventType == AlpmEventScriptletInfo
+             ->  AlpmScriptlet
+             <$> {#get alpm_event_scriptlet_info_t -> line #} ptr
+           | eventType == AlpmEventOptdepRemoval
+             ->  AlpmOptdepRemoval
+             <$> {#get alpm_event_optdep_removal_t -> pkg #} ptr
+             <*> {#get alpm_event_optdep_removal_t -> optdep #} ptr
+           | (||) <$> (== AlpmEventPackageOperationStart) <*> (== AlpmEventPackageOperationDone) $ eventType
+             ->  (AlpmPkgOp eventType)
+             <$> (fmap (toEnum . fromEnum) $ {#get alpm_event_package_operation_t -> operation #} ptr)
+             <*> {#get alpm_event_package_operation_t -> oldpkg #} ptr
+             <*> {#get alpm_event_package_operation_t -> newpkg #} ptr
+           | otherwise -> return (Other eventType)
+    poke ptr a =
+      case a of
+        (AlpmPkgOp e op old new ) -> do
+          {#set alpm_event_package_operation_t -> type #} ptr (from e)
+          {#set alpm_event_package_operation_t -> operation #} ptr (from op)
+          {#set alpm_event_package_operation_t -> oldpkg #} ptr old
+          {#set alpm_event_package_operation_t -> newpkg #} ptr new
+        (AlpmOptdepRemoval pkg optdep) -> do
+          {#set alpm_event_optdep_removal_t -> type #} ptr (from AlpmEventOptdepRemoval)
+          {#set alpm_event_optdep_removal_t -> pkg #} ptr pkg
+          {#set alpm_event_optdep_removal_t -> optdep #} ptr optdep
+        (AlpmScriptlet line) -> do
+          {#set alpm_event_scriptlet_info_t -> type #} ptr (from AlpmEventScriptletInfo)
+          {#set alpm_event_scriptlet_info_t -> line #} ptr line
+        (AlpmDBMissing dbname) -> do
+          {#set alpm_event_database_missing_t -> type #} ptr (from AlpmEventDatabaseMissing)
+          {#set alpm_event_database_missing_t -> dbname #} ptr dbname
+        (AlpmPkgDownload e file) -> do
+          {#set alpm_event_pkgdownload_t -> type #} ptr (from e)
+          {#set alpm_event_pkgdownload_t -> file #} ptr file
+        (AlpmPacnewCreated noup oldpkg newpkg file) -> do
+          {#set alpm_event_pacnew_created_t -> type #} ptr (from AlpmEventPacnewCreated)
+          {#set alpm_event_pacnew_created_t -> from_noupgrade #} ptr noup
+          {#set alpm_event_pacnew_created_t -> oldpkg #} ptr oldpkg
+          {#set alpm_event_pacnew_created_t -> newpkg #} ptr newpkg
+          {#set alpm_event_pacnew_created_t -> file #} ptr file
+        (AlpmPacsaveCreated oldpkg file) -> do
+          {#set alpm_event_pacsave_created_t -> type #} ptr (from AlpmEventPacsaveCreated)
+          {#set alpm_event_pacsave_created_t -> oldpkg #} ptr oldpkg
+          {#set alpm_event_pacsave_created_t -> file #} ptr file
+        (AlpmEventHook e triggertime) -> do
+          {#set alpm_event_hook_t -> type #} ptr (from e)
+          {#set alpm_event_hook_t -> when #} ptr (from triggertime)
+        (AlpmEventHookRun e name desc pos total) -> do
+          {#set alpm_event_hook_run_t -> type #} ptr (from e)
+          {#set alpm_event_hook_run_t -> name #} ptr name
+          {#set alpm_event_hook_run_t -> desc #} ptr desc
+          {#set alpm_event_hook_run_t -> position #} ptr pos
+          {#set alpm_event_hook_run_t -> total #} ptr total
+        (Other e) -> do
+          {#set alpm_event_any_t -> type #} ptr (from e)
+      where
+        from :: (Enum b, Enum a) => a -> b
+        from = toEnum . fromEnum
+
+
+{#pointer *alpm_event_t as AlpmEventPtr -> AlpmEvent #}
+
 
 ---------------------------------------------------
 -- Synonyms

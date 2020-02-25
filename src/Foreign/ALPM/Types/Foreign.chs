@@ -4,6 +4,8 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE RecordWildCards #-}
+{-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE DuplicateRecordFields #-}
 module Foreign.ALPM.Types.Foreign where
 
@@ -434,6 +436,116 @@ instance Storable AlpmEvent where
 
 {#pointer *alpm_event_t as AlpmEventPtr -> AlpmEvent #}
 
+data AlpmQuestion
+    = AlpmInstallIgnorepkg
+      { install :: CInt
+      , pkg :: AlpmPackage
+      }
+    | AlpmReplace
+      { replace :: CInt
+      , oldpkg :: AlpmPackage
+      , newpkg :: AlpmPackage
+      , newdb :: AlpmDatabase
+      }
+    | AlpmConflictPkg
+      { remove :: CInt
+      , conflict :: (Ptr AlpmConflict)
+      }
+    | AlpmCorrupted
+      { remove :: CInt
+      , filePath :: CString
+      , reason :: AlpmErrno
+      }
+    | AlpmRemovePkgs
+      { skip :: CInt
+      , packages :: AlpmListPtr
+      }
+    | AlpmSelectProvider
+      { index :: CInt
+      , providers :: AlpmListPtr
+      , depend :: AlpmDependencyPtr
+      }
+    | AlpmImportKey
+      { imp :: CInt
+      , key :: AlpmPgpkeyPtr
+      }
+
+instance Storable AlpmQuestion where
+    sizeOf = const {#sizeof alpm_question_t #}
+    alignment = const {#alignof alpm_question_t #}
+    peek ptr = do
+        tag <- {#get alpm_question_t -> type #} ptr
+        let qtype = toEnum $ fromEnum tag
+        let from = toEnum . fromEnum
+        if | qtype == AlpmQuestionInstallIgnorepkg
+             -> AlpmInstallIgnorepkg
+            <$> {#get alpm_question_install_ignorepkg_t -> install #} ptr
+            <*> {#get alpm_question_install_ignorepkg_t -> pkg #} ptr
+           | qtype == AlpmQuestionReplacePkg
+             -> AlpmReplace
+            <$> {#get alpm_question_replace_t -> replace #} ptr
+            <*> {#get alpm_question_replace_t -> oldpkg #} ptr
+            <*> {#get alpm_question_replace_t -> newpkg #} ptr
+            <*> {#get alpm_question_replace_t -> newdb #} ptr
+           | qtype == AlpmQuestionConflictPkg
+             -> AlpmConflictPkg
+            <$> {#get alpm_question_conflict_t -> remove #} ptr
+            <*> {#get alpm_question_conflict_t -> conflict #} ptr
+           | qtype == AlpmQuestionCorruptedPkg
+             -> AlpmCorrupted
+            <$> {#get alpm_question_corrupted_t -> remove #} ptr
+            <*> {#get alpm_question_corrupted_t -> filepath #} ptr
+            <*> (fmap from $ {#get alpm_question_corrupted_t -> reason #} ptr)
+           | qtype == AlpmQuestionRemovePkgs
+             -> AlpmRemovePkgs
+            <$> {#get alpm_question_remove_pkgs_t -> skip #} ptr
+            <*> {#get alpm_question_remove_pkgs_t -> packages #} ptr
+           | qtype == AlpmQuestionSelectProvider
+             -> AlpmSelectProvider
+            <$> {#get alpm_question_select_provider_t -> use_index #} ptr
+            <*> {#get alpm_question_select_provider_t -> providers #} ptr
+            <*> {#get alpm_question_select_provider_t -> depend #} ptr
+           | qtype == AlpmQuestionImportKey
+             -> AlpmImportKey
+            <$> {#get alpm_question_import_key_t -> import #} ptr
+            <*> {#get alpm_question_import_key_t -> key #} ptr
+    poke ptr q = case q of
+      AlpmInstallIgnorepkg{..} -> do
+        {#set alpm_question_install_ignorepkg_t -> type #} ptr (from AlpmQuestionInstallIgnorepkg)
+        {#set alpm_question_install_ignorepkg_t -> install #} ptr install
+        {#set alpm_question_install_ignorepkg_t -> pkg #} ptr pkg
+      AlpmReplace{..} -> do
+        {#set alpm_question_replace_t -> type #} ptr (from AlpmQuestionReplacePkg)
+        {#set alpm_question_replace_t -> replace #} ptr replace
+        {#set alpm_question_replace_t -> oldpkg #} ptr oldpkg
+        {#set alpm_question_replace_t -> newpkg #} ptr newpkg
+        {#set alpm_question_replace_t -> newdb #} ptr newdb
+      AlpmConflictPkg{..} -> do
+        {#set alpm_question_conflict_t -> type #} ptr (from AlpmQuestionConflictPkg)
+        {#set alpm_question_conflict_t -> remove #} ptr remove
+        {#set alpm_question_conflict_t -> conflict #} ptr conflict
+      AlpmCorrupted{..} -> do
+        {#set alpm_question_corrupted_t -> type #} ptr (from AlpmQuestionCorruptedPkg)
+        {#set alpm_question_corrupted_t -> remove #} ptr remove
+        {#set alpm_question_corrupted_t -> filepath #} ptr filePath
+        {#set alpm_question_corrupted_t -> reason #} ptr (from reason)
+      AlpmRemovePkgs{..} -> do
+        {#set alpm_question_remove_pkgs_t -> type #} ptr (from AlpmQuestionRemovePkgs)
+        {#set alpm_question_remove_pkgs_t -> skip #} ptr skip
+        {#set alpm_question_remove_pkgs_t -> packages #} ptr packages
+      AlpmSelectProvider{..} -> do
+        {#set alpm_question_select_provider_t -> type #} ptr (from AlpmQuestionSelectProvider)
+        {#set alpm_question_select_provider_t -> use_index #} ptr index
+        {#set alpm_question_select_provider_t -> providers #} ptr providers
+        {#set alpm_question_select_provider_t -> depend #} ptr depend
+      AlpmImportKey{..} -> do
+        {#set alpm_question_import_key_t -> type #} ptr (from AlpmQuestionImportKey)
+        {#set alpm_question_import_key_t -> import #} ptr imp
+        {#set alpm_question_import_key_t -> key #} ptr key
+      where
+        from = toEnum . fromEnum
+
+{#pointer *alpm_question_t as AlpmQuestionPtr -> AlpmQuestion #}
 
 ---------------------------------------------------
 -- Synonyms

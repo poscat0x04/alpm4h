@@ -27,6 +27,7 @@ module Foreign.ALPM.Types
        , AlpmDependencyPtr
        , AlpmDepmissing (..)
        , AlpmDepmissingPtr
+       , AlpmHookWhen (..)
        , AlpmEvent (..)
        , AlpmEventPtr
        , AlpmQuestion (..)

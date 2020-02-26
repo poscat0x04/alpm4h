@@ -40,6 +40,7 @@ library:
     - Foreign.ALPM.List
     - Foreign.ALPM.Dependency
     - Foreign.ALPM.Database
+    - Foreign.ALPM.Callback
   source-dirs: src
 
 extra-libraries:
